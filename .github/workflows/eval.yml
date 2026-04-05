@@ -1,0 +1,192 @@
+name: Model Eval CI
+
+on:
+  pull_request:
+    paths:
+      - 'prompts/**'
+      - 'golden_dataset/**'
+      - 'src/**'
+  workflow_dispatch:
+    inputs:
+      prompt_version:
+        description: 'Prompt version to evaluate'
+        required: true
+        default: 'v1'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  eval:
+    name: Run Model Evaluation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Detect changed prompt version
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ inputs.prompt_version }}" >> "$GITHUB_OUTPUT"
+          else
+            CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} HEAD -- prompts/)
+            if [ -n "$CHANGED" ]; then
+              VERSION=$(echo "$CHANGED" | sort -r | head -1 | sed 's/prompts\///' | sed 's/\.yaml//')
+              echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+            else
+              echo "version=v1" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      # ── Stage 1: DeepEval Unit Tests ──────────────────────────────
+      # Runs pytest-style assertions on every test case using DeepEval.
+      # This is the merge gate — fails fast on category mismatches.
+
+      - name: Run DeepEval unit tests (baseline)
+        env:
+          EVAL_PROMPT_VERSION: v1
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CONFIDENT_API_KEY: ${{ secrets.CONFIDENT_API_KEY }}
+        run: |
+          deepeval test run test_email_classifier.py \
+            --verbose \
+            2>&1 | tee deepeval_baseline.txt
+        continue-on-error: true
+
+      - name: Run DeepEval unit tests (new prompt)
+        id: deepeval
+        env:
+          EVAL_PROMPT_VERSION: ${{ steps.detect.outputs.version }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CONFIDENT_API_KEY: ${{ secrets.CONFIDENT_API_KEY }}
+        run: |
+          deepeval test run test_email_classifier.py \
+            --verbose \
+            2>&1 | tee deepeval_new.txt
+
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
+      # ── Stage 2: Custom Pipeline (Diff + Drift + Reporting) ───────
+      # DeepEval doesn't do run-to-run comparison or drift detection.
+      # Our custom pipeline handles historical analysis.
+
+      - name: Run regression analysis pipeline
+        id: pipeline
+        run: |
+          python run_eval.py --prompt v1 --no-slack --db runs/ci_eval.db
+
+          python run_eval.py \
+            --prompt ${{ steps.detect.outputs.version }} \
+            --ci \
+            --db runs/ci_eval.db \
+            --warn-threshold 0.03 \
+            --critical-threshold 0.08 \
+            2>&1 | tee pipeline_output.txt
+
+          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      # ── Stage 3: Artifacts & PR Comment ───────────────────────────
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-reports
+          path: |
+            reports/*.html
+            deepeval_baseline.txt
+            deepeval_new.txt
+          retention-days: 30
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            const pipelineOutput = fs.readFileSync('pipeline_output.txt', 'utf8');
+            let deepevalOutput = '';
+            try {
+              deepevalOutput = fs.readFileSync('deepeval_new.txt', 'utf8');
+            } catch {}
+
+            const pipelineCode = '${{ steps.pipeline.outputs.exit_code }}';
+            const status = pipelineCode === '0' ? '✅ PASSED' : '🚨 FAILED';
+
+            const lines = pipelineOutput.split('\n');
+            const summaryBlock = lines.slice(-8).join('\n');
+
+            const deepevalPassed = (deepevalOutput.match(/PASSED/g) || []).length;
+            const deepevalFailed = (deepevalOutput.match(/FAILED/g) || []).length;
+
+            const body = [
+              `## Model Eval ${status}`,
+              '',
+              `### DeepEval Unit Tests`,
+              `✅ ${deepevalPassed} passed | ❌ ${deepevalFailed} failed`,
+              '',
+              '### Regression Analysis',
+              '```',
+              summaryBlock,
+              '```',
+              '',
+              '📊 Full reports attached as artifacts.',
+              '',
+              `_Prompt: \`${{ steps.detect.outputs.version }}\` | Actor: ${context.actor}_`,
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(c =>
+              c.body.includes('Model Eval') && c.user.type === 'Bot'
+            );
+
+            const params = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            };
+
+            if (botComment) {
+              await github.rest.issues.updateComment({ ...params, comment_id: botComment.id });
+            } else {
+              await github.rest.issues.createComment({ ...params, issue_number: context.issue.number });
+            }
+
+      - name: Gate merge on critical regression
+        if: steps.pipeline.outputs.exit_code != '0'
+        run: |
+          echo "::error::Critical regression detected. Merge blocked."
+          exit 1
+
+      - name: Send Slack alert
+        if: always() && env.SLACK_WEBHOOK_URL != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          python -c "
+          from pathlib import Path
+          from src.slack_alert import send_slack_alert
+          from src.run_store import RunStore
+          store = RunStore(Path('runs/ci_eval.db'))
+          run = store.get_latest_run()
+          if run:
+              send_slack_alert(run)
+          "

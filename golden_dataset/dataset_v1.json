@@ -1,0 +1,820 @@
+{
+  "version": "v1",
+  "created_at": "2026-04-05T00:00:00Z",
+  "description": "Hand-curated golden dataset for email classifier eval. Includes easy, medium, hard, and edge cases across all 4 categories. Every case is human-verified ground truth.",
+  "cases": [
+    {
+      "id": "bil_001",
+      "input_email": "Hi, I was charged $49.99 twice this month for my Pro plan. Can I get a refund for the duplicate charge? My card ending in 4821 was billed on March 1st and again on March 3rd.",
+      "expected_category": "billing",
+      "expected_summary": "Customer reports duplicate Pro plan charge of $49.99 and requests a refund.",
+      "difficulty": "easy",
+      "notes": "Clear billing case with specific dollar amounts and dates."
+    },
+    {
+      "id": "bil_002",
+      "input_email": "I cancelled my subscription last month but I'm still being charged. This is the third time I've written about this. Please stop charging my card immediately and refund the last two months.",
+      "expected_category": "billing",
+      "expected_summary": "Customer reports continued charges after subscription cancellation and demands refunds.",
+      "difficulty": "easy",
+      "notes": "Frustrated customer, clear billing issue."
+    },
+    {
+      "id": "bil_003",
+      "input_email": "Can you send me an invoice for my team's annual subscription? Our accounts department needs it for tax purposes. The account is under Acme Corp, account ID #TM-4419.",
+      "expected_category": "billing",
+      "expected_summary": "Customer requests an invoice for their team's annual subscription for tax purposes.",
+      "difficulty": "easy",
+      "notes": "Invoice request — clearly billing."
+    },
+    {
+      "id": "bil_004",
+      "input_email": "What's the difference between your Basic and Pro plans? I'm trying to figure out if the upgrade is worth the extra $30/month for my small team of 5.",
+      "expected_category": "billing",
+      "expected_summary": "Customer asks about pricing differences between Basic and Pro plans before upgrading.",
+      "difficulty": "medium",
+      "notes": "Pricing inquiry. Could be confused with general, but the cost comparison makes it billing."
+    },
+    {
+      "id": "bil_005",
+      "input_email": "I used a coupon code SAVE20 during checkout but the discount wasn't applied. I was charged the full $79 instead of $63.20. Please adjust the charge.",
+      "expected_category": "billing",
+      "expected_summary": "Customer reports coupon code SAVE20 was not applied and requests a price adjustment.",
+      "difficulty": "easy",
+      "notes": "Coupon/discount issue — billing."
+    },
+    {
+      "id": "bil_006",
+      "input_email": "Do you offer student discounts? I'm a full-time university student and would love to use your platform but the current pricing is out of my budget.",
+      "expected_category": "billing",
+      "expected_summary": "Customer inquires about student discount availability due to budget constraints.",
+      "difficulty": "medium",
+      "notes": "Could be general inquiry, but it's fundamentally about pricing/affordability."
+    },
+    {
+      "id": "bil_007",
+      "input_email": "My company wants to pay annually instead of monthly. How do I switch? Also, do we get a discount for annual billing?",
+      "expected_category": "billing",
+      "expected_summary": "Customer wants to switch to annual billing and asks about potential discounts.",
+      "difficulty": "easy",
+      "notes": "Billing cycle change request."
+    },
+    {
+      "id": "bil_008",
+      "input_email": "I see a charge from your company on my bank statement but I don't remember signing up for anything. Can you look into this? The charge is $14.99 from March 15th.",
+      "expected_category": "billing",
+      "expected_summary": "Customer reports an unrecognized charge of $14.99 and requests investigation.",
+      "difficulty": "medium",
+      "notes": "Unrecognized charge — billing, but could overlap with account if they suspect unauthorized access."
+    },
+    {
+      "id": "bil_009",
+      "input_email": "I want to downgrade from Enterprise to Pro. Will I get a prorated refund for the remaining days on my current billing cycle?",
+      "expected_category": "billing",
+      "expected_summary": "Customer wants to downgrade plans and asks about prorated refund eligibility.",
+      "difficulty": "medium",
+      "notes": "Downgrade + refund question. Contains 'downgrade' which v2 mock misclassifies."
+    },
+    {
+      "id": "bil_010",
+      "input_email": "Please add my colleague Sarah (sarah@acme.com) to our team plan. We have 3 seats available.",
+      "expected_category": "billing",
+      "expected_summary": "Customer requests adding a new team member to their existing team plan.",
+      "difficulty": "hard",
+      "notes": "Team seat management is a billing function, but could be confused with account management."
+    },
+    {
+      "id": "bil_011",
+      "input_email": "Your payment page only accepts Visa and Mastercard. Do you accept AMEX or PayPal? I can't complete my purchase without one of those options.",
+      "expected_category": "billing",
+      "expected_summary": "Customer asks about alternative payment methods as current options don't work for them.",
+      "difficulty": "easy",
+      "notes": "Payment method inquiry."
+    },
+    {
+      "id": "bil_012",
+      "input_email": "I need to update the credit card on file. The one you have expires next month.",
+      "expected_category": "billing",
+      "expected_summary": "Customer needs to update their expiring credit card on file.",
+      "difficulty": "medium",
+      "notes": "Payment method update — billing, though touches account settings."
+    },
+
+    {
+      "id": "tec_001",
+      "input_email": "The export to PDF button gives me a 500 error every time I click it. I'm using Chrome 120 on Windows 11. It worked fine last week.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports a 500 error when exporting to PDF on Chrome/Windows 11.",
+      "difficulty": "easy",
+      "notes": "Clear technical bug report with environment details."
+    },
+    {
+      "id": "tec_002",
+      "input_email": "The dashboard takes over 30 seconds to load when I have more than 50 items. Last month it loaded in under 3 seconds. Something changed on your end.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports severe dashboard performance degradation with 50+ items.",
+      "difficulty": "easy",
+      "notes": "Performance regression report."
+    },
+    {
+      "id": "tec_003",
+      "input_email": "When I paste text from Word into the editor, all the formatting gets stripped and the images disappear. Can you fix the paste functionality?",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports that pasting from Word strips formatting and removes images.",
+      "difficulty": "easy",
+      "notes": "Feature malfunction."
+    },
+    {
+      "id": "tec_004",
+      "input_email": "Your API endpoint /v2/users returns a 404 but your docs say it exists. I've double-checked my auth token and it's valid. Here's my request: curl -H 'Authorization: Bearer xxx' https://api.yourapp.com/v2/users",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports API endpoint /v2/users returning 404 despite being documented.",
+      "difficulty": "easy",
+      "notes": "API bug with technical details."
+    },
+    {
+      "id": "tec_005",
+      "input_email": "The mobile app crashes immediately after opening on my iPhone 15 running iOS 17.3. I've tried reinstalling twice. The web version works fine.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports mobile app crash on launch on iPhone 15 with iOS 17.3.",
+      "difficulty": "easy",
+      "notes": "Mobile crash report."
+    },
+    {
+      "id": "tec_006",
+      "input_email": "I uploaded a CSV with 10,000 rows and the import just spins forever. No error message, no progress bar, nothing. It's been 2 hours.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports CSV import hanging indefinitely with no progress indication for 10K rows.",
+      "difficulty": "easy",
+      "notes": "Import timeout/hang."
+    },
+    {
+      "id": "tec_007",
+      "input_email": "The search function returns completely wrong results. I searched for 'Q3 revenue' and got results about onboarding docs. This is really frustrating because I rely on search to find my reports.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports search returning irrelevant results when looking for specific documents.",
+      "difficulty": "medium",
+      "notes": "Search quality issue — technical."
+    },
+    {
+      "id": "tec_008",
+      "input_email": "Notifications are delayed by about 4 hours. I get an email saying 'John commented on your doc' but when I check, the comment was posted hours ago. Real-time notifications used to work.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports notification delays of approximately 4 hours for document comments.",
+      "difficulty": "medium",
+      "notes": "Notification system delay."
+    },
+    {
+      "id": "tec_009",
+      "input_email": "The dark mode toggle doesn't persist. Every time I refresh the page it goes back to light mode. I've cleared my cookies, same issue in incognito.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports dark mode preference not persisting across page refreshes.",
+      "difficulty": "medium",
+      "notes": "UI state persistence bug."
+    },
+    {
+      "id": "tec_010",
+      "input_email": "Your SSL certificate seems to be misconfigured. I'm getting SEC_ERROR_UNKNOWN_ISSUER warnings in Firefox when accessing your site. Chrome works fine though.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports SSL certificate errors in Firefox while Chrome works normally.",
+      "difficulty": "medium",
+      "notes": "Infrastructure/security technical issue."
+    },
+    {
+      "id": "tec_011",
+      "input_email": "The drag and drop feature for reordering tasks doesn't work on my iPad Pro. I can select items but they won't move. Works on my laptop though.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports drag-and-drop not functioning on iPad Pro for task reordering.",
+      "difficulty": "easy",
+      "notes": "Device-specific bug."
+    },
+    {
+      "id": "tec_012",
+      "input_email": "Every time I save a document, it creates a duplicate instead of updating the existing one. My workspace now has 47 copies of the same file.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports save function creating duplicates instead of updating existing documents.",
+      "difficulty": "easy",
+      "notes": "Data duplication bug."
+    },
+
+    {
+      "id": "acc_001",
+      "input_email": "I forgot my password and the reset email never arrives. I've checked spam and junk folders. My email on file is jane@example.com. Can you help?",
+      "expected_category": "account",
+      "expected_summary": "Customer cannot reset password because reset emails are not being delivered.",
+      "difficulty": "easy",
+      "notes": "Classic password reset issue."
+    },
+    {
+      "id": "acc_002",
+      "input_email": "I need to change the email address on my account from old@company.com to new@company.com. We switched email providers last week.",
+      "expected_category": "account",
+      "expected_summary": "Customer requests email address change on their account due to provider switch.",
+      "difficulty": "easy",
+      "notes": "Profile update."
+    },
+    {
+      "id": "acc_003",
+      "input_email": "Please delete my account and all associated data. I no longer use your service and want to exercise my right to data deletion under GDPR.",
+      "expected_category": "account",
+      "expected_summary": "Customer requests complete account and data deletion citing GDPR rights.",
+      "difficulty": "easy",
+      "notes": "Account deletion with GDPR."
+    },
+    {
+      "id": "acc_004",
+      "input_email": "I'm getting a 'session expired' error every 10 minutes even though I checked 'remember me'. It's happening on all my devices. Is there something wrong with my account?",
+      "expected_category": "account",
+      "expected_summary": "Customer reports frequent session expiration despite using remember-me option.",
+      "difficulty": "hard",
+      "notes": "Could be technical (session bug) or account (auth config). Account is correct because it's user-specific."
+    },
+    {
+      "id": "acc_005",
+      "input_email": "Someone logged into my account from an IP address I don't recognize. I got a security alert at 3am. I've already changed my password but I'm worried about what they accessed.",
+      "expected_category": "account",
+      "expected_summary": "Customer reports unauthorized account access from unrecognized IP and has security concerns.",
+      "difficulty": "easy",
+      "notes": "Account security breach."
+    },
+    {
+      "id": "acc_006",
+      "input_email": "How do I set up two-factor authentication? I want to add an extra layer of security to my account.",
+      "expected_category": "account",
+      "expected_summary": "Customer asks how to enable two-factor authentication for their account.",
+      "difficulty": "easy",
+      "notes": "2FA setup request."
+    },
+    {
+      "id": "acc_007",
+      "input_email": "I'm trying to log in with Google SSO but it says 'account not linked'. I've always used Google to sign in. Did something change?",
+      "expected_category": "account",
+      "expected_summary": "Customer reports Google SSO login failure with 'account not linked' error.",
+      "difficulty": "medium",
+      "notes": "SSO issue — account."
+    },
+    {
+      "id": "acc_008",
+      "input_email": "My colleague left the company. Can you transfer ownership of their projects to me? Their username was m.chen and I'm their manager.",
+      "expected_category": "account",
+      "expected_summary": "Customer requests ownership transfer of a departed colleague's projects.",
+      "difficulty": "medium",
+      "notes": "Account/ownership transfer."
+    },
+    {
+      "id": "acc_009",
+      "input_email": "I keep getting logged out every time I switch between tabs. This started happening after your last update. Very annoying.",
+      "expected_category": "account",
+      "expected_summary": "Customer reports being logged out when switching tabs since the last update.",
+      "difficulty": "hard",
+      "notes": "Borderline technical/account. Account because it's about auth state."
+    },
+    {
+      "id": "acc_010",
+      "input_email": "I need to merge two accounts. I accidentally created a second account with my work email and now my data is split between them.",
+      "expected_category": "account",
+      "expected_summary": "Customer requests merging two accounts due to accidental duplicate creation.",
+      "difficulty": "easy",
+      "notes": "Account merge request."
+    },
+    {
+      "id": "acc_011",
+      "input_email": "Can I change my username from 'xXgamer99Xx' to something more professional? I created this account years ago and now I'm using it for work.",
+      "expected_category": "account",
+      "expected_summary": "Customer requests a username change to something more professional.",
+      "difficulty": "easy",
+      "notes": "Profile update — clearly account."
+    },
+    {
+      "id": "acc_012",
+      "input_email": "I received an email saying my account will be deactivated due to inactivity. I still want to keep it. How do I prevent this?",
+      "expected_category": "account",
+      "expected_summary": "Customer wants to prevent account deactivation due to inactivity notice.",
+      "difficulty": "easy",
+      "notes": "Account retention."
+    },
+
+    {
+      "id": "gen_001",
+      "input_email": "Just wanted to say your product is amazing! I've been using it for 6 months and it's completely changed how our team collaborates. Keep up the great work!",
+      "expected_category": "general",
+      "expected_summary": "Customer shares positive feedback about the product's impact on team collaboration.",
+      "difficulty": "easy",
+      "notes": "Positive feedback — clearly general."
+    },
+    {
+      "id": "gen_002",
+      "input_email": "Do you have a public roadmap? I'd love to know if you're planning to add Gantt chart support. Several of my team members have been asking about it.",
+      "expected_category": "general",
+      "expected_summary": "Customer asks about public roadmap and requests Gantt chart feature.",
+      "difficulty": "easy",
+      "notes": "Feature request."
+    },
+    {
+      "id": "gen_003",
+      "input_email": "Hi, I'm a tech blogger and I'd like to write a review of your platform. Can you set me up with a press account or a demo?",
+      "expected_category": "general",
+      "expected_summary": "Tech blogger requests press account or demo for a platform review.",
+      "difficulty": "easy",
+      "notes": "PR/media inquiry."
+    },
+    {
+      "id": "gen_004",
+      "input_email": "We're a non-profit working in education. Do you offer any special programs or partnerships for non-profit organizations?",
+      "expected_category": "general",
+      "expected_summary": "Non-profit organization asks about special programs or partnership opportunities.",
+      "difficulty": "medium",
+      "notes": "Partnership inquiry — could be confused with billing (pricing), but it's broader."
+    },
+    {
+      "id": "gen_005",
+      "input_email": "I'm writing a research paper and would like to cite your platform. Do you have any published white papers or technical documentation about your architecture?",
+      "expected_category": "general",
+      "expected_summary": "Researcher requests technical documentation or white papers for academic citation.",
+      "difficulty": "easy",
+      "notes": "Academic/research inquiry."
+    },
+    {
+      "id": "gen_006",
+      "input_email": "Where are you based? I'm looking for tech companies to visit during a conference in San Francisco next month.",
+      "expected_category": "general",
+      "expected_summary": "Customer asks about company location for a potential visit during an SF conference.",
+      "difficulty": "easy",
+      "notes": "Company info request."
+    },
+    {
+      "id": "gen_007",
+      "input_email": "Do you have an affiliate or referral program? I recommend your tool to clients all the time and would love to formalize that.",
+      "expected_category": "general",
+      "expected_summary": "Customer asks about referral or affiliate program opportunities.",
+      "difficulty": "medium",
+      "notes": "Could be billing-adjacent but it's really a partnership/program inquiry."
+    },
+    {
+      "id": "gen_008",
+      "input_email": "Hi, I'm evaluating your tool against Notion and Monday.com for our company. Can you share a comparison sheet or set up a call with your sales team?",
+      "expected_category": "general",
+      "expected_summary": "Prospective customer requests comparison materials or sales call for tool evaluation.",
+      "difficulty": "easy",
+      "notes": "Sales/evaluation inquiry."
+    },
+    {
+      "id": "gen_009",
+      "input_email": "Is there a community forum or Discord where users can share templates and best practices?",
+      "expected_category": "general",
+      "expected_summary": "Customer asks about community forums for sharing templates and best practices.",
+      "difficulty": "easy",
+      "notes": "Community inquiry."
+    },
+    {
+      "id": "gen_010",
+      "input_email": "Your onboarding tutorial was really helpful. Would you consider making a YouTube series? I learn better from video content.",
+      "expected_category": "general",
+      "expected_summary": "Customer suggests creating YouTube tutorial series as a learning resource.",
+      "difficulty": "easy",
+      "notes": "Content suggestion with positive feedback."
+    },
+
+    {
+      "id": "edge_001",
+      "input_email": "I want to upgrade my plan but the pricing page won't load. It just shows a blank screen with a spinning loader.",
+      "expected_category": "technical",
+      "expected_summary": "Customer cannot access pricing page due to loading issue while trying to upgrade.",
+      "difficulty": "edge_case",
+      "notes": "AMBIGUOUS: mentions 'upgrade' (billing intent) but the actual problem is a page not loading (technical). Correct answer is technical because the actionable issue is the broken page."
+    },
+    {
+      "id": "edge_002",
+      "input_email": "refund pls",
+      "expected_category": "billing",
+      "expected_summary": "Customer requests a refund with no additional context.",
+      "difficulty": "edge_case",
+      "notes": "EXTREMELY SHORT: tests classifier on minimal input. Clear billing intent despite brevity."
+    },
+    {
+      "id": "edge_003",
+      "input_email": "I love how your app crashes every time I try to do anything useful. Really great quality control you've got there. 10/10 would crash again.",
+      "expected_category": "technical",
+      "expected_summary": "Customer sarcastically reports frequent app crashes affecting usability.",
+      "difficulty": "edge_case",
+      "notes": "SARCASTIC: positive language but clearly a technical complaint. v2 mock may misclassify as general."
+    },
+    {
+      "id": "edge_004",
+      "input_email": "Hola, no puedo acceder a mi cuenta. I've tried resetting my password but the page is in English only and my mother doesn't understand. Can you help in Spanish?",
+      "expected_category": "account",
+      "expected_summary": "Customer cannot access account and requests Spanish language support for password reset.",
+      "difficulty": "edge_case",
+      "notes": "MIXED LANGUAGE: starts in Spanish, switches to English. Core issue is account access."
+    },
+    {
+      "id": "edge_005",
+      "input_email": "my acount is brokn. i cant login and wen i try to reset passwrd it says eror. also i was chargd last month after i canceld. plz help asap!!!",
+      "expected_category": "account",
+      "expected_summary": "Customer reports login failure, password reset errors, and post-cancellation charges.",
+      "difficulty": "edge_case",
+      "notes": "TYPOS + MULTI-ISSUE: heavy typos and spans both account and billing. Primary issue is account access."
+    },
+    {
+      "id": "edge_006",
+      "input_email": ".",
+      "expected_category": "general",
+      "expected_summary": "Empty or meaningless message with no actionable content.",
+      "difficulty": "edge_case",
+      "notes": "MINIMAL INPUT: single character. Should default to general. Tests graceful handling."
+    },
+    {
+      "id": "edge_007",
+      "input_email": "I'm a developer and I noticed your API rate limit headers are inconsistent. X-RateLimit-Remaining sometimes shows negative values, and the reset timestamp is in seconds on some endpoints but milliseconds on others. Also, the error response for 429s doesn't include a Retry-After header which makes it hard to implement proper backoff. I've documented all this in a GitHub gist: https://gist.github.com/dev123/abc",
+      "expected_category": "technical",
+      "expected_summary": "Developer reports inconsistent API rate limit headers and missing Retry-After on 429 responses.",
+      "difficulty": "hard",
+      "notes": "HIGHLY TECHNICAL: dense technical detail. Tests whether classifier can handle developer-audience emails."
+    },
+    {
+      "id": "edge_008",
+      "input_email": "Amazing that in 2026 a tech company still can't get basic login working. I've been locked out for three days. Three. Days. Do you even test your software?",
+      "expected_category": "account",
+      "expected_summary": "Frustrated customer reports being locked out of their account for three days.",
+      "difficulty": "edge_case",
+      "notes": "SARCASTIC + EMOTIONAL: starts with sarcastic praise, core issue is account lockout. v2 mock may misclassify."
+    },
+    {
+      "id": "edge_009",
+      "input_email": "I want to delete my account because you keep charging me even though I cancelled, and your cancellation flow is broken — the button doesn't work. Nothing works on your terrible platform.",
+      "expected_category": "account",
+      "expected_summary": "Customer wants account deletion due to ongoing charges after cancellation and broken cancellation flow.",
+      "difficulty": "edge_case",
+      "notes": "TRIPLE ISSUE: account deletion + billing + technical. Primary intent is account deletion."
+    },
+    {
+      "id": "edge_010",
+      "input_email": "help",
+      "expected_category": "general",
+      "expected_summary": "Customer sent a single-word help request with no context.",
+      "difficulty": "edge_case",
+      "notes": "SINGLE WORD: no signal for any specific category. General is the correct fallback."
+    },
+    {
+      "id": "edge_011",
+      "input_email": "Subject: URGENT!!! READ IMMEDIATELY\n\nI am a Nigerian prince and I need your help transferring $5,000,000 USD. Please send me your bank account details and I will reward you handsomely. This is 100% legitimate business opportunity.",
+      "expected_category": "general",
+      "expected_summary": "Spam or scam email unrelated to customer support.",
+      "difficulty": "edge_case",
+      "notes": "SPAM: not a real support email. Should be classified as general (catch-all). Tests noise handling."
+    },
+    {
+      "id": "edge_012",
+      "input_email": "I upgraded to the Enterprise plan yesterday to get the API access, but the API key page says I'm still on the Pro plan. My dashboard shows Enterprise and I was charged the Enterprise rate. The API settings page is the only thing that hasn't updated.",
+      "expected_category": "technical",
+      "expected_summary": "Customer's API settings page not reflecting Enterprise plan upgrade despite correct billing and dashboard.",
+      "difficulty": "edge_case",
+      "notes": "COMPLEX AMBIGUOUS: mentions upgrade (billing), plan status (account), and a page not updating (technical). The actual problem to fix is the technical sync issue."
+    },
+
+    {
+      "id": "bil_013",
+      "input_email": "Hi, I'm trying to get a refund for my last month's subscription. I downgraded from Business to Starter on February 1st, but I was still charged the Business rate of $99 for February.",
+      "expected_category": "billing",
+      "expected_summary": "Customer requests refund after being charged the higher plan rate despite downgrading.",
+      "difficulty": "easy",
+      "notes": "Downgrade + refund — clear billing."
+    },
+    {
+      "id": "bil_014",
+      "input_email": "I'm getting charged in USD but I'm based in Australia. Can you switch my billing to AUD? The exchange rate fees from my bank are adding up.",
+      "expected_category": "billing",
+      "expected_summary": "Customer requests billing currency change from USD to AUD to avoid exchange rate fees.",
+      "difficulty": "medium",
+      "notes": "International billing — clearly billing."
+    },
+    {
+      "id": "bil_015",
+      "input_email": "We need to add 10 more seats to our Enterprise plan. Can you send me a quote for the additional licenses? Our PO process takes 2 weeks so I need this ASAP.",
+      "expected_category": "billing",
+      "expected_summary": "Customer requests a quote for 10 additional Enterprise plan seats for purchase order processing.",
+      "difficulty": "easy",
+      "notes": "Seat expansion with quote request — billing."
+    },
+    {
+      "id": "bil_016",
+      "input_email": "My free trial ends tomorrow. If I don't upgrade, will I lose all my data? I want to keep my projects but I'm not ready to commit to a paid plan yet.",
+      "expected_category": "billing",
+      "expected_summary": "Customer asks about data retention after free trial expiration before deciding to upgrade.",
+      "difficulty": "medium",
+      "notes": "Trial expiration concern — billing because it's about plan/pricing decision."
+    },
+    {
+      "id": "bil_017",
+      "input_email": "Can you explain what's included in the $29/month plan versus the $79/month plan? Specifically, I need to know about API access and the number of team members allowed.",
+      "expected_category": "billing",
+      "expected_summary": "Customer asks for detailed feature comparison between the $29 and $79 monthly plans.",
+      "difficulty": "easy",
+      "notes": "Plan comparison with pricing — billing."
+    },
+
+    {
+      "id": "tec_013",
+      "input_email": "The real-time collaboration feature has stopped working. When my colleague edits a document, I don't see the changes until I refresh the page. This used to update live.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports real-time collaboration not working, requiring page refresh to see changes.",
+      "difficulty": "medium",
+      "notes": "Real-time sync broken — technical."
+    },
+    {
+      "id": "tec_014",
+      "input_email": "Your webhook integration with our Slack workspace keeps dropping. We set it up last week and it worked for 2 days, but now we're not getting any notifications in our channel.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports webhook integration with Slack failing after initially working for 2 days.",
+      "difficulty": "medium",
+      "notes": "Integration failure — technical."
+    },
+    {
+      "id": "tec_015",
+      "input_email": "The file upload feature crashes when I try to upload anything over 5MB. I get a generic error message that just says 'Something went wrong'. No error code, nothing useful.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports file upload crashing on files over 5MB with an unhelpful error message.",
+      "difficulty": "easy",
+      "notes": "Upload crash with file size threshold — technical."
+    },
+    {
+      "id": "tec_016",
+      "input_email": "There's a display bug on the analytics page. The bar chart overlaps with the date picker dropdown when the screen width is between 1024px and 1280px. Safari and Firefox both affected.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports UI overlap bug between bar chart and date picker at specific screen widths.",
+      "difficulty": "medium",
+      "notes": "Responsive design bug with specific details — technical."
+    },
+    {
+      "id": "tec_017",
+      "input_email": "The auto-save feature seems broken. I wrote a 2000-word report and when my browser crashed, everything was gone. Your app is supposed to save every 30 seconds but it clearly didn't.",
+      "expected_category": "technical",
+      "expected_summary": "Customer lost work due to auto-save failure, losing a 2000-word report after browser crash.",
+      "difficulty": "easy",
+      "notes": "Auto-save failure causing data loss — technical."
+    },
+
+    {
+      "id": "acc_013",
+      "input_email": "I've been trying to enable two-factor authentication but the QR code won't scan in Google Authenticator. I've tried three different phones. Can you send me the setup key manually?",
+      "expected_category": "account",
+      "expected_summary": "Customer unable to set up 2FA as QR code won't scan and requests manual setup key.",
+      "difficulty": "easy",
+      "notes": "2FA setup issue — account."
+    },
+    {
+      "id": "acc_014",
+      "input_email": "I left the company last month but I still have access to the corporate account. My old manager asked me to let you know so you can revoke my access. My email was j.smith@oldcorp.com.",
+      "expected_category": "account",
+      "expected_summary": "Former employee requests access revocation from corporate account after leaving the company.",
+      "difficulty": "medium",
+      "notes": "Access revocation after departure — account."
+    },
+    {
+      "id": "acc_015",
+      "input_email": "I accidentally deleted all the files in my workspace. Is there any way to recover them? I need those documents back urgently — they include our quarterly reports.",
+      "expected_category": "account",
+      "expected_summary": "Customer accidentally deleted all workspace files and urgently needs recovery assistance.",
+      "difficulty": "hard",
+      "notes": "Data recovery request — could be technical (if a bug) but user admits it was accidental. Account/data management."
+    },
+    {
+      "id": "acc_016",
+      "input_email": "My company was acquired and our domain changed from @oldco.com to @newco.com. I need to update my login email, my team members' emails, and make sure we don't lose any data during the transition.",
+      "expected_category": "account",
+      "expected_summary": "Customer needs bulk email updates for team accounts following company acquisition and domain change.",
+      "difficulty": "medium",
+      "notes": "Domain migration — account management."
+    },
+    {
+      "id": "acc_017",
+      "input_email": "I got a notification saying someone tried to log in to my account from Russia at 3am. I'm in California. Can you tell me what they accessed? I've already changed my password and enabled 2FA.",
+      "expected_category": "account",
+      "expected_summary": "Customer reports suspicious login attempt from Russia and wants to know what was accessed.",
+      "difficulty": "easy",
+      "notes": "Security incident with geographic anomaly — account."
+    },
+
+    {
+      "id": "gen_011",
+      "input_email": "We're a school district looking to deploy your platform to 500 teachers. Do you have an education pricing tier? We also need SOC 2 compliance documentation for our procurement team.",
+      "expected_category": "general",
+      "expected_summary": "School district inquires about education pricing and SOC 2 compliance documentation for large deployment.",
+      "difficulty": "medium",
+      "notes": "Could be billing (pricing) but it's primarily a partnership/procurement inquiry — general."
+    },
+    {
+      "id": "gen_012",
+      "input_email": "I saw your CEO's talk at the AI conference last week. Really impressive. I run a tech podcast and would love to have someone from your team on as a guest. Would that be possible?",
+      "expected_category": "general",
+      "expected_summary": "Podcast host requests a guest appearance from the company's team after seeing CEO's conference talk.",
+      "difficulty": "easy",
+      "notes": "Media/PR outreach — general."
+    },
+    {
+      "id": "gen_013",
+      "input_email": "Is your platform HIPAA compliant? We're a healthcare startup and we need to verify compliance before we can use your service for patient-facing workflows.",
+      "expected_category": "general",
+      "expected_summary": "Healthcare startup asks about HIPAA compliance for patient-facing use case.",
+      "difficulty": "easy",
+      "notes": "Compliance inquiry — general."
+    },
+    {
+      "id": "gen_014",
+      "input_email": "Your documentation is missing examples for the batch processing endpoint. The API reference just shows the parameters but doesn't show a full request/response cycle. Can you add some?",
+      "expected_category": "general",
+      "expected_summary": "Customer requests better documentation with examples for the batch processing API endpoint.",
+      "difficulty": "medium",
+      "notes": "Documentation improvement request — general (feedback), not technical (not a bug)."
+    },
+
+    {
+      "id": "edge_013",
+      "input_email": "hiii so like my thing isnt working and i cant get in and also i think u charged me twice?? idk can someone plz help lol",
+      "expected_category": "account",
+      "expected_summary": "Customer reports login issues and possible double charge in casual, informal language.",
+      "difficulty": "edge_case",
+      "notes": "EXTREMELY INFORMAL: casual internet-speak with multiple issues. Account is primary because 'can't get in' = access issue."
+    },
+    {
+      "id": "edge_014",
+      "input_email": "This is a legal notice. Under the Australian Privacy Act 1988 and GDPR Article 17, I formally request the complete deletion of all personal data associated with my account (user ID: AU-7291). Please confirm deletion within 30 days as required by law.",
+      "expected_category": "account",
+      "expected_summary": "Customer sends formal legal request for complete data deletion under Australian privacy law and GDPR.",
+      "difficulty": "edge_case",
+      "notes": "LEGAL/FORMAL: Very formal tone with legal citations. Account because it's about data deletion, though the legal framing is unusual."
+    },
+    {
+      "id": "edge_015",
+      "input_email": "First of all, I want to say I love the new dashboard redesign. It looks so much better. BUT — the old CSV export button is gone and I used it every single day. Where did it go? Was this intentional? I need it back.",
+      "expected_category": "technical",
+      "expected_summary": "Customer praises redesign but reports missing CSV export feature that was previously available.",
+      "difficulty": "edge_case",
+      "notes": "MIXED SENTIMENT: starts with praise (looks like general/feedback) but core issue is a missing feature (technical). The export functionality disappearing is the actionable problem."
+    },
+
+    {
+      "id": "bil_018",
+      "input_email": "Our finance team needs a detailed billing breakdown for Q1. Can you generate an invoice that shows each user's usage separately? We need it for internal cost allocation.",
+      "expected_category": "billing",
+      "expected_summary": "Customer requests detailed per-user billing breakdown invoice for internal cost allocation.",
+      "difficulty": "easy",
+      "notes": "Invoice request with detail requirements — billing."
+    },
+    {
+      "id": "bil_019",
+      "input_email": "I signed up for the annual plan during your Black Friday sale at $199/year, but my renewal just went through at the regular price of $349. The discount was supposed to lock in for the first year at minimum.",
+      "expected_category": "billing",
+      "expected_summary": "Customer's annual renewal charged regular price instead of the promotional Black Friday rate.",
+      "difficulty": "medium",
+      "notes": "Promotional pricing dispute — billing."
+    },
+    {
+      "id": "bil_020",
+      "input_email": "We're switching from monthly to annual billing. Before I commit, can you confirm that the price is $29/month billed annually ($348/year) and not $29/year? Your pricing page is a bit confusing.",
+      "expected_category": "billing",
+      "expected_summary": "Customer asks for billing cycle price confirmation before switching from monthly to annual.",
+      "difficulty": "easy",
+      "notes": "Pricing clarification — billing."
+    },
+    {
+      "id": "bil_021",
+      "input_email": "I need a refund for the last 3 months. I've been paying for a Pro subscription but I realized I haven't used the platform since January. I forgot to cancel.",
+      "expected_category": "billing",
+      "expected_summary": "Customer requests 3-month refund for unused Pro subscription they forgot to cancel.",
+      "difficulty": "easy",
+      "notes": "Refund for unused subscription — billing."
+    },
+    {
+      "id": "bil_022",
+      "input_email": "Can you apply the coupon code STARTUP50 to my account retroactively? I just found out about the discount after I already paid full price last week.",
+      "expected_category": "billing",
+      "expected_summary": "Customer requests retroactive application of coupon code STARTUP50 to recent full-price payment.",
+      "difficulty": "easy",
+      "notes": "Retroactive coupon application — billing."
+    },
+    {
+      "id": "bil_023",
+      "input_email": "Your payment gateway keeps rejecting my debit card. I've tried 4 different cards and none of them work. I can see the charges as pending in my bank account but they keep getting reversed.",
+      "expected_category": "billing",
+      "expected_summary": "Customer reports payment gateway rejecting multiple debit cards with pending charges being reversed.",
+      "difficulty": "medium",
+      "notes": "Payment processing failure — billing, though has some technical overlap."
+    },
+    {
+      "id": "bil_024",
+      "input_email": "We have 50 users on the Enterprise plan but only 30 are active. Can we reduce our seat count to 30 and get a prorated credit for the remaining 20 seats for the rest of the billing cycle?",
+      "expected_category": "billing",
+      "expected_summary": "Customer requests seat reduction from 50 to 30 with prorated credit for unused seats.",
+      "difficulty": "medium",
+      "notes": "Seat reduction with credit — billing."
+    },
+
+    {
+      "id": "tec_018",
+      "input_email": "The keyboard shortcuts stopped working after the latest update. Ctrl+S doesn't save, Ctrl+Z doesn't undo, nothing. I have to use the menu for everything now, which is really slow.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports all keyboard shortcuts broken after the latest update, forcing menu-based interaction.",
+      "difficulty": "easy",
+      "notes": "Keyboard shortcut failure — technical."
+    },
+    {
+      "id": "tec_019",
+      "input_email": "There's a memory leak in the web app. After about 2 hours of use, Chrome's memory usage goes from 200MB to over 2GB and the tab becomes unresponsive. I have to close and reopen it.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports a memory leak causing Chrome to consume over 2GB after 2 hours of use.",
+      "difficulty": "medium",
+      "notes": "Memory leak — technical performance issue."
+    },
+    {
+      "id": "tec_020",
+      "input_email": "When I copy a table from your app and paste it into Google Sheets, all the cell formatting is lost and the data ends up in a single column instead of maintaining the row/column structure.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports copy-paste from app to Google Sheets loses table structure and formatting.",
+      "difficulty": "medium",
+      "notes": "Copy-paste interoperability bug — technical."
+    },
+
+    {
+      "id": "acc_018",
+      "input_email": "I set up my account with my personal email but now I need to move everything to my work email. Is there a way to migrate all my projects, settings, and history to the new email without losing anything?",
+      "expected_category": "account",
+      "expected_summary": "Customer needs to migrate entire account from personal to work email without data loss.",
+      "difficulty": "medium",
+      "notes": "Account migration between emails — account."
+    },
+    {
+      "id": "acc_019",
+      "input_email": "My team lead left the company and he was the only admin on our workspace. None of us can manage users or change settings. Can you transfer admin access to me? I'm the most senior person remaining.",
+      "expected_category": "account",
+      "expected_summary": "Customer needs admin access transferred after the only admin left the company.",
+      "difficulty": "medium",
+      "notes": "Admin ownership transfer — account."
+    },
+
+    {
+      "id": "gen_015",
+      "input_email": "Do you have any case studies from companies in the healthcare industry? We're building a business case internally and it would help to show how similar organizations have benefited from your platform.",
+      "expected_category": "general",
+      "expected_summary": "Customer requests healthcare industry case studies for internal business case development.",
+      "difficulty": "easy",
+      "notes": "Case study request — general."
+    },
+    {
+      "id": "gen_016",
+      "input_email": "I'm a computer science professor and I'd like to use your platform as a teaching tool in my software engineering course. Do you offer academic licenses for university use?",
+      "expected_category": "general",
+      "expected_summary": "Professor requests academic licenses for using the platform in a university software engineering course.",
+      "difficulty": "easy",
+      "notes": "Academic/education inquiry — general."
+    },
+    {
+      "id": "gen_017",
+      "input_email": "We're considering your platform for our 200-person engineering team. Before we commit, we'd need a security audit, pen test results, and your SOC 2 Type II report. Can you provide these?",
+      "expected_category": "general",
+      "expected_summary": "Enterprise prospect requests security audit documentation and SOC 2 Type II report before committing.",
+      "difficulty": "medium",
+      "notes": "Enterprise security/compliance inquiry — general."
+    },
+    {
+      "id": "gen_018",
+      "input_email": "I noticed you don't have a status page. When your service goes down, we have no way to know if it's on your end or ours. Have you considered setting up something like status.yourapp.com?",
+      "expected_category": "general",
+      "expected_summary": "Customer suggests creating a public status page for service outage visibility.",
+      "difficulty": "easy",
+      "notes": "Feature suggestion — general."
+    },
+    {
+      "id": "gen_019",
+      "input_email": "Your competitor just launched a feature that lets users collaborate in real-time with voice chat built in. Are you planning anything similar? This would be a game-changer for remote teams like ours.",
+      "expected_category": "general",
+      "expected_summary": "Customer asks about plans for real-time voice chat collaboration to match competitor feature.",
+      "difficulty": "easy",
+      "notes": "Competitive feature inquiry — general."
+    },
+    {
+      "id": "gen_020",
+      "input_email": "I run a YouTube channel about productivity tools and I want to make a video about your platform. Could you set up a demo environment I can use for the recording? I have about 50K subscribers.",
+      "expected_category": "general",
+      "expected_summary": "YouTuber with 50K subscribers requests demo environment for a product review video.",
+      "difficulty": "easy",
+      "notes": "Media/content creator outreach — general."
+    },
+    {
+      "id": "gen_021",
+      "input_email": "Is there a way to export all my data if I ever decide to leave your platform? I want to make sure I'm not locked in before I invest heavily in migrating our workflows over.",
+      "expected_category": "general",
+      "expected_summary": "Prospective customer asks about data portability and export options before committing to the platform.",
+      "difficulty": "medium",
+      "notes": "Data portability/vendor lock-in inquiry — general."
+    },
+    {
+      "id": "gen_022",
+      "input_email": "We love the product but our team is struggling with adoption. Do you offer onboarding workshops or training sessions? We'd be happy to pay for dedicated training for our 30 team members.",
+      "expected_category": "general",
+      "expected_summary": "Customer inquires about paid onboarding workshops to help team adoption of the platform.",
+      "difficulty": "easy",
+      "notes": "Training/onboarding inquiry — general, not billing despite mentioning payment willingness."
+    }
+  ]
+}

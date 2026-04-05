@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eval Report — v3 | 87a62b06fd8c</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #334155;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: #475569;
+    --green: #22c55e;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --blue: #3b82f6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    background: var(--bg);
+    color: var(--text);
+    padding: 2rem;
+    line-height: 1.6;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  h2 {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #000;
+  }
+  .meta { color: var(--text-muted); font-size: 0.85rem; }
+  .meta span { margin-right: 1.5rem; }
+  .scorecard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .score-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .score-card .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+  .score-card .value { font-size: 1.8rem; font-weight: bold; margin: 0.25rem 0; }
+  .delta { font-size: 0.8rem; font-weight: 600; }
+  .delta.pos { color: var(--green); }
+  .delta.neg { color: var(--red); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem 0 1.5rem;
+    font-size: 0.85rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  tr:hover { background: var(--surface); }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .tag-regression { background: rgba(239,68,68,0.2); color: var(--red); }
+  .tag-improvement { background: rgba(34,197,94,0.2); color: var(--green); }
+  .trend-chart { margin: 1rem 0; }
+  .summary-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  .summary-bar .item {
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .empty-state {
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 1rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div>
+      <h1>Eval Report</h1>
+      <div class="meta">
+        <span>Run: 87a62b06fd8c</span>
+        <span>Prompt: v3</span>
+        <span>Model: gpt-4o-mini</span>
+        <span>2026-04-05 05:57 UTC</span>
+      </div>
+    </div>
+    <div>
+      <span class="status-badge" style="background:#22c55e">OK</span>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    <div class="item">100 cases</div>
+    <div class="item" style="color:var(--green)">99 passed</div>
+    <div class="item" style="color:var(--red)">1 failed</div>
+    
+  </div>
+
+  <div class="scorecard">
+    <div class="score-card">
+      <div class="label">Accuracy</div>
+      <div class="value">99.0%</div>
+      <span class="delta neg">-1.0%</span>
+    </div>
+    <div class="score-card">
+      <div class="label">Avg Relevance (1–5)</div>
+      <div class="value">1.68</div>
+      <span class="delta neg">-0.00</span>
+    </div>
+    <div class="score-card">
+      <div class="label">Avg Latency</div>
+      <div class="value">153ms</div>
+      <span class="delta pos">+0ms</span>
+    </div>
+    <div class="score-card">
+      <div class="label">Total Tokens</div>
+      <div class="value">11,603</div>
+    </div>
+  </div>
+
+  <h2>Category Breakdown</h2>
+  <table>
+    <thead><tr><th>Category</th><th>Accuracy</th><th>Delta</th></tr></thead>
+    <tbody>
+        <tr>
+            <td><strong>Billing</strong></td>
+            <td>100.0% (25 cases)</td>
+            <td><span class="delta pos">+0.0%</span></td>
+        </tr>
+        <tr>
+            <td><strong>Technical</strong></td>
+            <td>100.0% (25 cases)</td>
+            <td><span class="delta pos">+0.0%</span></td>
+        </tr>
+        <tr>
+            <td><strong>Account</strong></td>
+            <td>96.0% (25 cases)</td>
+            <td><span class="delta neg">-4.0%</span></td>
+        </tr>
+        <tr>
+            <td><strong>General</strong></td>
+            <td>100.0% (25 cases)</td>
+            <td><span class="delta pos">+0.0%</span></td>
+        </tr></tbody>
+  </table>
+
+  <h2>Regressions (1)</h2>
+  <table>
+    <thead><tr><th>Case ID</th><th>Old Prediction</th><th>New Prediction</th><th>Old Summary</th><th>New Summary</th></tr></thead>
+    <tbody>
+    <tr>
+      <td><code>edge_008</code></td>
+      <td>account</td>
+      <td><span class="tag tag-regression">general</span></td>
+      <td style="font-size:0.8rem;color:var(--text-muted)">Customer needs account help: Amazing that in 2026 a tech company still can't get</td>
+      <td style="font-size:0.8rem">Customer inquiry: Amazing that in 2026 a tech company still can't get basic logi</td>
+    </tr></tbody>
+  </table>
+
+  <h2>Improvements (0)</h2>
+  <div class="empty-state">No improvements detected</div>
+
+  <h2>Accuracy Trend</h2><div class="trend-chart"><svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;">
+  <text x="42" y="164" text-anchor="end" fill="#94a3b8" font-size="11">90%</text><line x1="50" y1="160" x2="680" y2="160" stroke="#334155" stroke-dasharray="4"/><text x="42" y="129.0" text-anchor="end" fill="#94a3b8" font-size="11">92%</text><line x1="50" y1="125.0" x2="680" y2="125.0" stroke="#334155" stroke-dasharray="4"/><text x="42" y="94.0" text-anchor="end" fill="#94a3b8" font-size="11">95%</text><line x1="50" y1="90.0" x2="680" y2="90.0" stroke="#334155" stroke-dasharray="4"/><text x="42" y="59.0" text-anchor="end" fill="#94a3b8" font-size="11">98%</text><line x1="50" y1="55.0" x2="680" y2="55.0" stroke="#334155" stroke-dasharray="4"/><text x="42" y="24.0" text-anchor="end" fill="#94a3b8" font-size="11">100%</text><line x1="50" y1="20.0" x2="680" y2="20.0" stroke="#334155" stroke-dasharray="4"/>
+  <text x="50.0" y="192" text-anchor="middle" fill="#94a3b8" font-size="10">v1</text><text x="365.0" y="192" text-anchor="middle" fill="#94a3b8" font-size="10">v3</text><text x="680.0" y="192" text-anchor="middle" fill="#94a3b8" font-size="10">v2</text>
+  <polyline points="50.0,20.0 365.0,34.0 680.0,90.0" fill="none" stroke="#3b82f6" stroke-width="2"/>
+  <circle cx="50.0" cy="20.0" r="3" fill="#3b82f6"/><circle cx="365.0" cy="34.0" r="3" fill="#3b82f6"/><circle cx="680.0" cy="90.0" r="3" fill="#3b82f6"/>
+</svg></div>
+
+</div>
+</body>
+</html>
